@@ -4,66 +4,469 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Francisco Javier Rodríguez | Fullstack Web Developer | React & Node.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
   <style>
-    body { margin: 0; font-family: sans-serif; background-color: #121212; color: #e0e0e0; }
-    header { background-color: #1f1f1f; text-align: center; padding: 2rem 1rem; }
-    header img { width: 150px; border-radius: 50%; border: 3px solid #555; }
-    header h1 { margin: 1rem 0 0.5rem; }
-    main { max-width: 800px; margin: auto; padding: 2rem 1rem; }
-    section { margin-bottom: 2rem; }
-    h2 { border-bottom: 2px solid #333; padding-bottom: 0.5rem; }
-    .links a { display: inline-block; margin-right: 1rem; color: #4fc3f7; text-decoration: none; }
-    .project { background: #1f1f1f; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+    :root {
+      --primary: #4fc3f7;
+      --primary-dark: #0093c4;
+      --dark-bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #e4e4e4;
+      --text-secondary: #a0a0a0;
+      --accent: #64ffda;
+      --gradient: linear-gradient(120deg, var(--primary), var(--accent));
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Roboto', sans-serif;
+      background-color: var(--dark-bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    header {
+      background: #151515;
+      position: relative;
+      padding: 5rem 2rem 3rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient);
+    }
+    
+    .profile-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+    
+    .profile-img {
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      background: var(--gradient);
+      background-origin: border-box;
+      padding: 3px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .profile-img:hover {
+      transform: scale(1.05);
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      margin: 1rem 0 0.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    
+    .tech-stack {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    
+    .tech-badge {
+      padding: 0.3rem 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2rem;
+      font-size: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(5px);
+    }
+    
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    
+    section {
+      margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.7rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--gradient);
+      border-radius: 3px;
+    }
+    
+    .about-content {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 0.8rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .project-card {
+      background: var(--card-bg);
+      border-radius: 0.8rem;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .project-header {
+      padding: 1.2rem 1.2rem 0.8rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .project-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+    
+    .project-body {
+      padding: 1.2rem;
+      flex-grow: 1;
+    }
+    
+    .project-links {
+      padding: 0 1.2rem 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      background: rgba(79, 195, 247, 0.1);
+      color: var(--primary);
+      border-radius: 0.4rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border: 1px solid rgba(79, 195, 247, 0.2);
+    }
+    
+    .btn:hover {
+      background: rgba(79, 195, 247, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .btn i {
+      margin-right: 0.5rem;
+    }
+    
+    .contact-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 0.8rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.7rem 1.2rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border-radius: 0.4rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-width: 150px;
+    }
+    
+    .contact-btn:hover {
+      background: var(--gradient);
+      color: #121212;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(79, 195, 247, 0.3);
+    }
+    
+    .contact-btn i {
+      font-size: 1.2rem;
+      margin-right: 0.7rem;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: #151515;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    
+    .scroll-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 45px;
+      height: 45px;
+      background: var(--primary);
+      color: #121212;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+    }
+    
+    .scroll-to-top.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .profile-img {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-links {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .contact-btn {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="img/JAG3016-1.jpg" alt="Francisco Javier Rodríguez" />
-    <h1>Francisco Javier Rodríguez</h1>
-    <p>Fullstack Web Developer | React · Node.js · MongoDB</p>
+    <div class="profile-container animate__animated animate__fadeIn">
+      <img src="img/JAG3016-1.jpg" alt="Francisco Javier Rodríguez" class="profile-img" />
+    </div>
+    <h1 class="animate__animated animate__fadeInUp">Francisco Javier Rodríguez</h1>
+    <p class="subtitle animate__animated animate__fadeInUp animate__delay-1s">Fullstack Web Developer</p>
+    <div class="tech-stack animate__animated animate__fadeInUp animate__delay-1s">
+      <span class="tech-badge">React</span>
+      <span class="tech-badge">Node.js</span>
+      <span class="tech-badge">Express</span>
+      <span class="tech-badge">MongoDB</span>
+      <span class="tech-badge">JavaScript</span>
+      <span class="tech-badge">AWS</span>
+    </div>
   </header>
+  
   <main>
-    <section>
+    <section id="about" class="animate__animated">
       <h2>Sobre mí</h2>
-      <p>Desarrollador web fullstack especializado en el stack MERN (MongoDB, Express, React, Node.js). Apasionado por la creación de aplicaciones funcionales, escalables y centradas en el usuario. Con experiencia en gestión de proyectos, APIs RESTful, integración continua y despliegue en la nube (AWS, Docker). Busco seguir creciendo como desarrollador y aportar soluciones reales a proyectos desafiantes.</p>
+      <div class="about-content">
+        <p>Desarrollador web fullstack especializado en el stack MERN (MongoDB, Express, React, Node.js). Apasionado por la creación de aplicaciones funcionales, escalables y centradas en el usuario. Con experiencia en gestión de proyectos, APIs RESTful, integración continua y despliegue en la nube (AWS, Docker).</p>
+        <p>Busco seguir creciendo como desarrollador y aportar soluciones reales a proyectos desafiantes.</p>
+      </div>
     </section>
-
-    <section>
+    
+    <section id="projects" class="animate__animated">
       <h2>Proyectos destacados</h2>
-      <div class="project">
-        <h3>Wallaclone</h3>
-        <p>Clon de Wallapop desarrollado con React, Node.js, Express, MongoDB, JWT, Multer y Tailwind. Incluye soporte i18n, subida de imágenes y despliegue en AWS.</p>
-        <a href="https://bananapeels.duckdns.org" target="_blank">Ver Demo</a>
-        <a href="https://github.com/PruebasBananaPeelsTeam/BananaPeelsFRONTEND" target="_blank">Frontend GitHub</a>
-        <a href="https://github.com/PruebasBananaPeelsTeam/BananaPeelsBACKEND" target="_blank">Backend GitHub</a>
-      </div>
-      <div class="project">
-        <h3>Nodepop Dashboard</h3>
-        <p>Gestión de anuncios con autenticación JWT, Redux Toolkit y despliegue en AWS con Docker.</p>
-        <a href="https://github.com/DamonCaos/Practica-nodepop" target="_blank">Ver en GitHub</a>
-      </div>
-      <div class="project">
-        <h3>Frontend Pop</h3>
-        <p>SPA tipo marketplace construida en JavaScript Vanilla con gestión de sesiones y simulación de API RESTful.</p>
-        <a href="https://github.com/DamonCaos/Practica_fundamentos_react" target="_blank">Ver en GitHub</a>
-      </div>
-      <div class="project">
-        <h3>Portfolio Personal</h3>
-        <p>Este mismo portfolio responsive, desarrollado en HTML y CSS.</p>
-        <a href="https://damoncaos.github.io/Portfolio/" target="_blank">Ver Demo</a>
-        <a href="https://github.com/DamonCaos/Portfolio" target="_blank">Ver en GitHub</a>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-header">
+            <h3 class="project-title">Wallaclone</h3>
+          </div>
+          <div class="project-body">
+            <p>Clon de Wallapop desarrollado con React, Node.js, Express, MongoDB, JWT, Multer y Tailwind. Incluye soporte i18n, subida de imágenes y despliegue en AWS.</p>
+          </div>
+          <div class="project-links">
+            <a href="https://bananapeels.duckdns.org" target="_blank" class="btn"><i class="fas fa-eye"></i> Ver Demo</a>
+            <a href="https://github.com/PruebasBananaPeelsTeam/BananaPeelsFRONTEND" target="_blank" class="btn"><i class="fab fa-github"></i> Frontend</a>
+            <a href="https://github.com/PruebasBananaPeelsTeam/BananaPeelsBACKEND" target="_blank" class="btn"><i class="fab fa-github"></i> Backend</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="project-header">
+            <h3 class="project-title">Nodepop Dashboard</h3>
+          </div>
+          <div class="project-body">
+            <p>Gestión de anuncios con autenticación JWT, Redux Toolkit y despliegue en AWS con Docker.</p>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/DamonCaos/Practica-nodepop" target="_blank" class="btn"><i class="fab fa-github"></i> Ver en GitHub</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="project-header">
+            <h3 class="project-title">Frontend Pop</h3>
+          </div>
+          <div class="project-body">
+            <p>SPA tipo marketplace construida en JavaScript Vanilla con gestión de sesiones y simulación de API RESTful.</p>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/DamonCaos/Practica_fundamentos_react" target="_blank" class="btn"><i class="fab fa-github"></i> Ver en GitHub</a>
+          </div>
+        </div>
+        
+        <div class="project-card">
+          <div class="project-header">
+            <h3 class="project-title">Portfolio Personal</h3>
+          </div>
+          <div class="project-body">
+            <p>Este mismo portfolio responsive, desarrollado en HTML y CSS.</p>
+          </div>
+          <div class="project-links">
+            <a href="https://damoncaos.github.io/Portfolio/" target="_blank" class="btn"><i class="fas fa-eye"></i> Ver Demo</a>
+            <a href="https://github.com/DamonCaos/Portfolio" target="_blank" class="btn"><i class="fab fa-github"></i> Ver en GitHub</a>
+          </div>
+        </div>
       </div>
     </section>
-
-    <section>
+    
+    <section id="contact" class="animate__animated">
       <h2>Contacto</h2>
-      <p class="links">
-        <a href="mailto:franciscoromera0816@gmail.com">📧 Email</a>
-        <a href="https://github.com/DamonCaos" target="_blank">💻 GitHub</a>
-        <a href="https://www.linkedin.com/in/francisco-javier-rodriguez-romera-1410b628b" target="_blank">🔗 LinkedIn</a>
-        <a href="CV_JavierRodriguez_COMPLETOV2.pdf" target="_blank">📄 Descargar mi CV</a>
-      </p>
+      <div class="contact-content">
+        <p>¿Interesado en colaborar? ¡No dudes en contactarme!</p>
+        <div class="contact-links">
+          <a href="mailto:franciscoromera0816@gmail.com" class="contact-btn">
+            <i class="fas fa-envelope"></i> Email
+          </a>
+          <a href="https://github.com/DamonCaos" target="_blank" class="contact-btn">
+            <i class="fab fa-github"></i> GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/francisco-javier-rodriguez-romera-1410b628b" target="_blank" class="contact-btn">
+            <i class="fab fa-linkedin"></i> LinkedIn
+          </a>
+          <a href="CV_JavierRodriguez_COMPLETOV2.pdf" target="_blank" class="contact-btn">
+            <i class="fas fa-file-alt"></i> Descargar CV
+          </a>
+        </div>
+      </div>
     </section>
   </main>
+  
+  <footer>
+    <p>&copy; 2025 Francisco Javier Rodríguez - Todos los derechos reservados</p>
+  </footer>
+  
+  <div class="scroll-to-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+  
+  <script>
+    // Intersection Observer for scroll animations
+    const sections = document.querySelectorAll('section');
+    const scrollButton = document.getElementById('scrollTop');
+    
+    // Intersection Observer for sections
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          entry.target.classList.add('animate__fadeInUp');
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+    
+    // Scroll to top button visibility
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollButton.classList.add('visible');
+      } else {
+        scrollButton.classList.remove('visible');
+      }
+    });
+    
+    // Scroll to top functionality
+    scrollButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  </script>
 </body>
 </html>
